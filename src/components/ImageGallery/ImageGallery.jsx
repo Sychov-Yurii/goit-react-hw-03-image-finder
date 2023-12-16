@@ -10,10 +10,17 @@ export class ImageGallery extends Component {
     images: [],
     result: 0,
     error: null,
+    isloading: false,
   };
 
   handleSubmit = value => {
-    this.setState({ query: value });
+    this.setState({
+      query: value,
+      page: 1,
+      images: [],
+      result: 0,
+      error: null,
+    });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -24,6 +31,7 @@ export class ImageGallery extends Component {
   }
 
   getApi = async (query, page) => {
+    this.setState({ isloading: true });
     try {
       const { hits, totalHits } = await getImages(query, page);
       this.setState(prevState => ({
@@ -32,19 +40,31 @@ export class ImageGallery extends Component {
       }));
     } catch (error) {
       this.setState({ error: error.message });
+    } finally {
+      this.setState({ isloading: false });
     }
   };
 
+  pushButton = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
+
   render() {
-    const { images } = this.state;
+    const { images, result, isloading, error } = this.state;
     return (
       <div>
         <Searchbar onSubmit={this.handleSubmit} />
+        {isloading && <p>...Loading</p>}
+        {error && <p>...Error {error}</p>}
+        {images && <p>...No photo {error}</p>}
         <ul className="gallery">
           {images.map(image => (
             <ImageGalleryItem key={image.id} imageURL={image.webformatURL} />
           ))}
         </ul>
+        {result > images.length && (
+          <button onClick={this.pushButton}>Load moore</button>
+        )}
       </div>
     );
   }
