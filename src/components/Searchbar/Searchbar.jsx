@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import css from '.Searchbar.module.css';
 
 export class Searchbar extends Component {
   state = {
@@ -18,12 +19,13 @@ export class Searchbar extends Component {
   render() {
     return (
       <header className="searchbar">
-        <form onSubmit={this.handleFormSubmit}>
-          <button type="submit">
-            <span>Search</span>
+        <form className="searchForm" onSubmit={this.handleFormSubmit}>
+          <button type="submit" className="button">
+            <span className="button-label">Search</span>
           </button>
 
           <input
+            className="searchForm-input"
             type="text"
             autoComplete="off"
             autoFocus
