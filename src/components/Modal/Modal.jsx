@@ -1,28 +1,60 @@
+import css from './Modal.module.css';
 import React, { Component } from 'react';
-import * as basicLightbox from 'basiclightbox';
 
 class Modal extends Component {
-  handleImageClick = () => {
-    const { largeImageURL } = this.props;
+  state = {
+    isOpen: false,
+    imageURL: '',
+  };
 
-    const instance = basicLightbox.create(
-      `<img src="${largeImageURL}" alt="large" />`
-    );
-    instance.show();
+  handleImageClick = imageURL => {
+    this.setState({ isOpen: true, imageURL });
+    document.addEventListener('keydown', this.handleEscKey);
+  };
+
+  handleCloseModal = () => {
+    this.setState({ isOpen: false });
+    document.removeEventListener('keydown', this.handleEscKey);
+  };
+
+  handleEscKey = event => {
+    if (event.key === 'Escape') {
+      this.handleCloseModal();
+    }
   };
 
   render() {
-    const { imageURL } = this.props;
+    const { isOpen, imageURL } = this.state;
+    const { largeImageURL } = this.props;
 
     return (
-      <li className="gallery-item">
-        <img
-          src={imageURL}
-          alt="gallery"
-          className="gallery-image"
-          onClick={this.handleImageClick}
-        />
-      </li>
+      <div>
+        {isOpen && (
+          <div
+            className={`${css.overlay} ${css.showOverlay}`}
+            onClick={this.handleCloseModal}
+          >
+            <div className={css.modal}>
+              <span className={css.close} onClick={this.handleCloseModal}>
+                &times;
+              </span>
+              <img
+                src={largeImageURL || imageURL}
+                alt="large"
+                className={css.modalImage}
+              />
+            </div>
+          </div>
+        )}
+        <li className="gallery-item">
+          <img
+            src={this.props.imageURL}
+            alt="gallery"
+            className="gallery-image"
+            onClick={() => this.handleImageClick(this.props.imageURL)}
+          />
+        </li>
+      </div>
     );
   }
 }

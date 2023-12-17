@@ -1,3 +1,4 @@
+import css from './ImageGallery.module.css';
 import React, { Component } from 'react';
 import { Searchbar } from '../Searchbar/Searchbar';
 import { getImages } from '../Api/Api';
@@ -59,7 +60,7 @@ export class ImageGallery extends Component {
         {isloading && <Loader>...Loading</Loader>}
         {error && <p>...Error {error}</p>}
         {query !== '' && images.length === 0 && <p>...No photo {error}</p>}
-        <ul className="gallery">
+        <ul className={css.imageGallery}>
           {images.map(image => (
             <ModalImage
               key={image.id}
@@ -69,7 +70,9 @@ export class ImageGallery extends Component {
           ))}
         </ul>
         {result > images.length && (
-          <button onClick={this.pushButton}>Load more</button>
+          <button className={css.btn_loader} onClick={this.pushButton}>
+            Load more
+          </button>
         )}
       </div>
     );

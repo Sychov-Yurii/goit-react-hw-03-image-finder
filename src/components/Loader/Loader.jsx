@@ -1,8 +1,9 @@
+import css from './Loader.module.css';
 import React from 'react';
 
 const Loader = () => {
   return (
-    <div className="loader">
+    <div>
       <span>Loading...</span>
     </div>
   );
