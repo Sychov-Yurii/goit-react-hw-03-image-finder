@@ -27,7 +27,7 @@
     overflow: hidden;
 }
 
-.searchForm-input {
+.searchForm_input {
     display: inline-block;
     width: 100%;
     font: inherit;

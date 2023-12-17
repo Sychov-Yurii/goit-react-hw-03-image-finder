@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Searchbar } from '../Searchbar/Searchbar';
 import { getImages } from '../Api/Api';
-import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
+import ModalImage from '../Modal/Modal';
 import Loader from '../Loader/Loader';
 
 export class ImageGallery extends Component {
@@ -61,11 +61,15 @@ export class ImageGallery extends Component {
         {query !== '' && images.length === 0 && <p>...No photo {error}</p>}
         <ul className="gallery">
           {images.map(image => (
-            <ImageGalleryItem key={image.id} imageURL={image.webformatURL} />
+            <ModalImage
+              key={image.id}
+              imageURL={image.webformatURL}
+              largeImageURL={image.largeImageURL}
+            />
           ))}
         </ul>
         {result > images.length && (
-          <button onClick={this.pushButton}>Load moore</button>
+          <button onClick={this.pushButton}>Load more</button>
         )}
       </div>
     );
