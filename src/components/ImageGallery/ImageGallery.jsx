@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Searchbar } from '../Searchbar/Searchbar';
 import { getImages } from '../Api/Api';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
+import Loader from '../Loader/Loader';
 
 export class ImageGallery extends Component {
   state = {
@@ -20,6 +21,7 @@ export class ImageGallery extends Component {
       images: [],
       result: 0,
       error: null,
+      isloading: false,
     });
   };
 
@@ -50,13 +52,13 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { images, result, isloading, error } = this.state;
+    const { images, result, isloading, error, query } = this.state;
     return (
       <div>
         <Searchbar onSubmit={this.handleSubmit} />
-        {isloading && <p>...Loading</p>}
+        {isloading && <Loader>...Loading</Loader>}
         {error && <p>...Error {error}</p>}
-        {images && <p>...No photo {error}</p>}
+        {query !== '' && images.length === 0 && <p>...No photo {error}</p>}
         <ul className="gallery">
           {images.map(image => (
             <ImageGalleryItem key={image.id} imageURL={image.webformatURL} />
