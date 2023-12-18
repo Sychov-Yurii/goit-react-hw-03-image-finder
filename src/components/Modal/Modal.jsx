@@ -35,9 +35,9 @@ class Modal extends Component {
             onClick={this.handleCloseModal}
           >
             <div className={css.modal}>
-              <span className={css.close} onClick={this.handleCloseModal}>
+              <button className={css.close} onClick={this.handleCloseModal}>
                 &times;
-              </span>
+              </button>
               <img
                 src={largeImageURL || imageURL}
                 alt="large"
